@@ -1,0 +1,23 @@
+{
+    "version": "0.1.0",
+    "tasks": [
+        {
+            "taskName": "install",
+            "showOutput": "silent",
+            "command": "go",
+            "args": [
+                "install",
+                "-v",
+                "./..."
+            ],
+            "isBuildCommand": true,
+            "echoCommand": false
+        },
+        {
+            "taskName": "execute",
+            "showOutput": "always",
+            "isShellCommand": true,
+            "command": "${workspaceRootFolderName}"
+        }
+    ]
+}
