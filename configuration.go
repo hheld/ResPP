@@ -3,6 +3,7 @@ package main
 import (
 	"bufio"
 	"encoding/json"
+	"fmt"
 	"os"
 )
 
@@ -33,6 +34,12 @@ func init() {
 				},
 			},
 		}
+	}
+
+	err = config.checkFileExistences()
+
+	if err != nil {
+		fmt.Printf("There was an error: %v\n", err)
 	}
 }
 
@@ -71,6 +78,24 @@ func (c *configuration) load(fileName string) error {
 	dec := json.NewDecoder(r)
 
 	dec.Decode(c)
+
+	return nil
+}
+
+func (c *configuration) checkFileExistences() error {
+	var missingFiles missingFilesError
+
+	for _, r := range c.Contents {
+		for _, f := range r.Files {
+			if _, err := os.Stat(f); os.IsNotExist(err) {
+				missingFiles = append(missingFiles, f)
+			}
+		}
+	}
+
+	if len(missingFiles) > 0 {
+		return &missingFiles
+	}
 
 	return nil
 }
