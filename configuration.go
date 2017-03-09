@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"os"
 )
 
@@ -37,6 +38,12 @@ func init() {
 	}
 
 	err = config.checkFileExistences()
+
+	if err != nil {
+		fmt.Printf("There was an error: %v\n", err)
+	}
+
+	err = config.readFiles()
 
 	if err != nil {
 		fmt.Printf("There was an error: %v\n", err)
@@ -95,6 +102,30 @@ func (c *configuration) checkFileExistences() error {
 
 	if len(missingFiles) > 0 {
 		return &missingFiles
+	}
+
+	return nil
+}
+
+func (c *configuration) readFiles() error {
+	for _, r := range c.Contents {
+		for _, f := range r.Files {
+			file, err := os.Open(f)
+
+			if err != nil {
+				return err
+			}
+
+			defer file.Close()
+
+			contents, err := ioutil.ReadAll(file)
+
+			if err != nil {
+				return err
+			}
+
+			fmt.Printf("Content of %s: %s\n", f, contents)
+		}
 	}
 
 	return nil
