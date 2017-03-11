@@ -2,15 +2,21 @@ package main
 
 import (
 	"bufio"
+	"encoding/base64"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"os"
 )
 
+type file struct {
+	Name           string `json:"name"`
+	EncodedContent string `json:"content"`
+}
+
 type resource struct {
-	Prefix string   `json:"prefix"`
-	Files  []string `json:"files"`
+	Prefix string `json:"prefix"`
+	Files  []file `json:"files"`
 }
 
 type configuration struct {
@@ -23,18 +29,7 @@ func init() {
 	err := config.load("config.json")
 
 	if err != nil {
-		config = configuration{
-			Contents: []resource{
-				{
-					Prefix: "/",
-					Files:  []string{"file1", "file2"},
-				},
-				{
-					Prefix: "/test",
-					Files:  []string{"file3", "file4"},
-				},
-			},
-		}
+		return
 	}
 
 	err = config.checkFileExistences()
@@ -94,8 +89,8 @@ func (c *configuration) checkFileExistences() error {
 
 	for _, r := range c.Contents {
 		for _, f := range r.Files {
-			if _, err := os.Stat(f); os.IsNotExist(err) {
-				missingFiles = append(missingFiles, f)
+			if _, err := os.Stat(f.Name); os.IsNotExist(err) {
+				missingFiles = append(missingFiles, f.Name)
 			}
 		}
 	}
@@ -109,8 +104,8 @@ func (c *configuration) checkFileExistences() error {
 
 func (c *configuration) readFiles() error {
 	for _, r := range c.Contents {
-		for _, f := range r.Files {
-			file, err := os.Open(f)
+		for i, f := range r.Files {
+			file, err := os.Open(f.Name)
 
 			if err != nil {
 				return err
@@ -124,7 +119,7 @@ func (c *configuration) readFiles() error {
 				return err
 			}
 
-			fmt.Printf("Content of %s: %s\n", f, contents)
+			r.Files[i].EncodedContent = base64.StdEncoding.EncodeToString(contents)
 		}
 	}
 

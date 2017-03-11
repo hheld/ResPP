@@ -14,7 +14,7 @@
             "echoCommand": false
         },
         {
-            "taskName": "execute",
+            "taskName": "run",
             "showOutput": "always",
             "isShellCommand": true,
             "command": "${workspaceRootFolderName}"
