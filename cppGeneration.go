@@ -8,14 +8,14 @@ import (
 )
 
 const headerTemplate = `#ifndef RESPPGEN_H
-#define RESPPGEN_H
+#define RESPP_H
 
 namespace ResPP
 {
 const char* R(const char* prefix, const char* path);
 }
 
-#endif // RESPPGEN_H
+#endif // RESPP_H
 `
 
 const sourceTemplate = `#include "ResPP.h"
