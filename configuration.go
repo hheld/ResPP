@@ -23,26 +23,30 @@ type configuration struct {
 	Contents []resource `json:"contents"`
 }
 
-var config configuration
+func newConfiguration(configFile string) *configuration {
+	var config configuration
 
-func init() {
 	err := config.load("config.json")
 
 	if err != nil {
-		return
+		return nil
 	}
 
 	err = config.checkFileExistences()
 
 	if err != nil {
 		fmt.Printf("There was an error: %v\n", err)
+		return nil
 	}
 
 	err = config.readFiles()
 
 	if err != nil {
 		fmt.Printf("There was an error: %v\n", err)
+		return nil
 	}
+
+	return &config
 }
 
 func (c *configuration) save(fileName string) error {
