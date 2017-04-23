@@ -109,21 +109,29 @@ func (c *configuration) checkFileExistences() error {
 func (c *configuration) readFiles() error {
 	for _, r := range c.Contents {
 		for i, f := range r.Files {
-			file, err := os.Open(f.Name)
+			err := func() error {
+				file, err := os.Open(f.Name)
+
+				if err != nil {
+					return err
+				}
+
+				defer file.Close()
+
+				contents, err := ioutil.ReadAll(file)
+
+				if err != nil {
+					return err
+				}
+
+				r.Files[i].EncodedContent = base64.StdEncoding.EncodeToString(contents)
+
+				return nil
+			}()
 
 			if err != nil {
 				return err
 			}
-
-			defer file.Close()
-
-			contents, err := ioutil.ReadAll(file)
-
-			if err != nil {
-				return err
-			}
-
-			r.Files[i].EncodedContent = base64.StdEncoding.EncodeToString(contents)
 		}
 	}
 
