@@ -1,4 +1,4 @@
-package main
+package codegen
 
 import (
 	"io/ioutil"
@@ -6,6 +6,8 @@ import (
 	"path/filepath"
 	"strings"
 	"text/template"
+
+	"github.com/hheld/ResPP/pkg/configuration"
 )
 
 const headerTemplate = `#ifndef RESPP_H
@@ -147,7 +149,7 @@ std::string R(const char* prefix, const char* path)
 }
 `
 
-func generateCpp(config *configuration, outDir string) error {
+func GenerateCpp(config *configuration.Configuration, outDir string) error {
 	funcs := template.FuncMap{
 		"addOne": func(i int) int {
 			return i + 1

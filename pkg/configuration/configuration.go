@@ -1,4 +1,4 @@
-package main
+package configuration
 
 import (
 	"bufio"
@@ -7,6 +7,8 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
+
+	"github.com/hheld/ResPP/pkg/errors"
 )
 
 type file struct {
@@ -19,12 +21,12 @@ type resource struct {
 	Files  []file `json:"files"`
 }
 
-type configuration struct {
+type Configuration struct {
 	Contents []resource `json:"contents"`
 }
 
-func newConfiguration(configFile string) *configuration {
-	var config configuration
+func OpenConfiguration(configFile string) *Configuration {
+	var config Configuration
 
 	err := config.load(configFile)
 
@@ -49,7 +51,7 @@ func newConfiguration(configFile string) *configuration {
 	return &config
 }
 
-func (c *configuration) save(fileName string) error {
+func (c *Configuration) save(fileName string) error {
 	f, err := os.Create(fileName)
 
 	if err != nil {
@@ -70,7 +72,7 @@ func (c *configuration) save(fileName string) error {
 	return nil
 }
 
-func (c *configuration) load(fileName string) error {
+func (c *Configuration) load(fileName string) error {
 	f, err := os.Open(fileName)
 
 	if err != nil {
@@ -88,8 +90,8 @@ func (c *configuration) load(fileName string) error {
 	return nil
 }
 
-func (c *configuration) checkFileExistences() error {
-	var missingFiles missingFilesError
+func (c *Configuration) checkFileExistences() error {
+	var missingFiles errors.MissingFilesError
 
 	for _, r := range c.Contents {
 		for _, f := range r.Files {
@@ -106,7 +108,7 @@ func (c *configuration) checkFileExistences() error {
 	return nil
 }
 
-func (c *configuration) readFiles() error {
+func (c *Configuration) readFiles() error {
 	for _, r := range c.Contents {
 		for i, f := range r.Files {
 			err := func() error {
