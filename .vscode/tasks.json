@@ -14,10 +14,10 @@
             "echoCommand": false
         },
         {
-            "taskName": "run",
+            "taskName": "run cli",
             "showOutput": "always",
             "isShellCommand": true,
-            "command": "${workspaceRootFolderName}"
+            "command": "ResPP-cli"
         }
     ]
 }

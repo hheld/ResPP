@@ -15,9 +15,14 @@ func main() {
 
 	var config *configuration.Configuration
 
-	config = configuration.OpenConfiguration(*configFile)
+	config, err := configuration.OpenConfiguration(*configFile)
 
-	err := codegen.GenerateCpp(config, *outDir)
+	if err != nil {
+		fmt.Printf("There was an error: %+v\n", err)
+		return
+	}
+
+	err = codegen.GenerateCpp(config, *outDir)
 
 	if err != nil {
 		fmt.Printf("There was an error: %+v\n", err)
