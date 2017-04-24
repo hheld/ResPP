@@ -3,11 +3,12 @@ package main
 import (
 	"io/ioutil"
 	"os"
+	"path/filepath"
 	"strings"
 	"text/template"
 )
 
-const headerTemplate = `#ifndef RESPPGEN_H
+const headerTemplate = `#ifndef RESPP_H
 #define RESPP_H
 
 #include <string>
@@ -146,7 +147,7 @@ std::string R(const char* prefix, const char* path)
 }
 `
 
-func generateCpp(config *configuration) error {
+func generateCpp(config *configuration, outDir string) error {
 	funcs := template.FuncMap{
 		"addOne": func(i int) int {
 			return i + 1
@@ -163,16 +164,16 @@ func generateCpp(config *configuration) error {
 	}
 
 	if _, err := os.Stat("cpp"); os.IsNotExist(err) {
-		os.Mkdir("cpp", 0755)
+		os.MkdirAll(outDir, 0755)
 	}
 
 	if err != nil {
 		return err
 	}
 
-	ioutil.WriteFile("cpp/ResPP.h", []byte(headerTemplate), 0644)
+	ioutil.WriteFile(filepath.Join("cpp", "ResPP.h"), []byte(headerTemplate), 0644)
 
-	f, err := os.Create("cpp/ResPP.cpp")
+	f, err := os.Create(filepath.Join("cpp", "/ResPP.cpp"))
 
 	if err != nil {
 		return err

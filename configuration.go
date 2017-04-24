@@ -26,7 +26,7 @@ type configuration struct {
 func newConfiguration(configFile string) *configuration {
 	var config configuration
 
-	err := config.load("config.json")
+	err := config.load(configFile)
 
 	if err != nil {
 		return nil
