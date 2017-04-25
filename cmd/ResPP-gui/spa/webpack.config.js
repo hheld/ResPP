@@ -49,11 +49,11 @@ module.exports = {
   plugins : [
       new webpack.DefinePlugin({
           'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || ''),
-          'pageTitle': '"App page header goes here!"'
+          'pageTitle': '"ResPP"'
       }),
 
       new HtmlWebpackPlugin({
-          title: 'App name goes here!!',
+          title: 'ResPP',
           template: 'src/index.ejs'
       }),
   ]
