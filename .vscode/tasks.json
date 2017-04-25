@@ -18,6 +18,15 @@
             "showOutput": "always",
             "isShellCommand": true,
             "command": "ResPP-cli"
+        },
+        {
+            "taskName": "run gui",
+            "showOutput": "always",
+            "isShellCommand": true,
+            "command": "ResPP-gui",
+            "options": {
+                "cwd": "${workspaceRoot}/cmd/ResPP-gui"
+            }
         }
     ]
 }

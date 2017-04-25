@@ -1,0 +1,26 @@
+{
+  "name": "spa",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./src/index.js",
+  "scripts": {
+    "build": "webpack -p",
+    "watch": "NODE_ENV=debug webpack --watch"
+  },
+  "author": "Harald Held",
+  "license": "MIT",
+  "devDependencies": {
+    "bootstrap": "^3.3.7",
+    "css-loader": "^0.28.0",
+    "elm-webpack-loader": "^4.3.0",
+    "file-loader": "^0.11.1",
+    "html-webpack-plugin": "^2.28.0",
+    "style-loader": "^0.16.1",
+    "url-loader": "^0.5.8",
+    "webpack": "^2.4.1"
+  },
+  "dependencies": {
+    "glob": "^7.1.1",
+    "jquery": "^3.2.1"
+  }
+}
