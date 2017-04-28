@@ -21,10 +21,12 @@ type resource struct {
 	Files  []file `json:"files"`
 }
 
+// Configuration contains all information that is stored in the config file.
 type Configuration struct {
 	Contents []resource `json:"contents"`
 }
 
+// OpenConfiguration opens an existing config file specified by its path.
 func OpenConfiguration(configFile string) (*Configuration, error) {
 	var config Configuration
 
