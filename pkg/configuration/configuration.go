@@ -30,7 +30,7 @@ type Configuration struct {
 func OpenConfiguration(configFile string) (*Configuration, error) {
 	var config Configuration
 
-	err := config.load(configFile)
+	err := config.LoadFromFile(configFile)
 
 	if err != nil {
 		return nil, err
@@ -74,7 +74,8 @@ func (c *Configuration) save(fileName string) error {
 	return nil
 }
 
-func (c *Configuration) load(fileName string) error {
+// LoadFromFile loads and fills a Configuration object from the given file.
+func (c *Configuration) LoadFromFile(fileName string) error {
 	f, err := os.Open(fileName)
 
 	if err != nil {
