@@ -11,19 +11,21 @@ import (
 	"github.com/hheld/ResPP/pkg/errors"
 )
 
-type file struct {
+// File consists of a file name and its base64 encoded content.
+type File struct {
 	Name           string `json:"name"`
 	EncodedContent string `json:"content"`
 }
 
-type resource struct {
+// Resource holds a list of all files sorted under a prefix string.
+type Resource struct {
 	Prefix string `json:"prefix"`
-	Files  []file `json:"files"`
+	Files  []File `json:"files"`
 }
 
 // Configuration contains all information that is stored in the config file.
 type Configuration struct {
-	Contents []resource `json:"contents"`
+	Contents []Resource `json:"contents"`
 }
 
 // OpenConfiguration opens an existing config file specified by its path.

@@ -25,6 +25,7 @@ func main() {
 
 	mux.Handle("/", http.FileServer(http.Dir("./dist")))
 	mux.HandleFunc("/load", conf.load)
+	mux.HandleFunc("/files", conf.files)
 
 	if err := http.ListenAndServe("localhost:8000", addLog(mux)); err != nil {
 		log.Printf("Could not start server at port 8000: %v\n", err)
