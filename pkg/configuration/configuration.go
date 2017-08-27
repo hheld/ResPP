@@ -14,7 +14,7 @@ import (
 // File consists of a file name and its base64 encoded content.
 type File struct {
 	Name           string `json:"name"`
-	EncodedContent string `json:"content"`
+	EncodedContent string `json:"-"`
 }
 
 // Resource holds a list of all files sorted under a prefix string.
